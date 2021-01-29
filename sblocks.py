@@ -6,6 +6,17 @@ file_path = ""
 mw = Tk()  # Initialize main window
 mw.title("SyntaxBlocks alpha")
 
+selected_lang = "Python"
+
+languages = {
+    "Python": {
+        "functions": {
+            "Print to console": "print()",
+            "Text": "\"\"",
+        }
+    }
+}  # List of programming languages available in the app
+
 
 def open_file():
     global file_path
@@ -17,6 +28,7 @@ def open_file():
 
     file_in.close()
 
+
 def save_file():
     file_out = open(file_path, "w")
 
@@ -24,6 +36,7 @@ def save_file():
         print(line, file=file_out, end="")
 
     file_out.close()
+
 
 # Configure menus
 file_menu = Menu(mw)
@@ -33,7 +46,22 @@ file_menu.add_command(label="Save", command=save_file)
 menubar = Menu(mw)
 mw.config(menu=menubar)
 menubar.add_cascade(label="File", menu=file_menu)
+menubar.add_separator()
 
+# Here we create the block groups visible in the menu bar
+for unit in languages[selected_lang].keys():
+    exec(unit + "_menu = Menu(mw)")  # Create a block group
+    for block in languages[selected_lang][unit].keys():
+        exec(unit + "_menu.add_command(label=block, command=lambda: code_editor.insert(INSERT, languages[selected_lang][\"" + unit + "\"][\"" + block +"\"]))") # Add a block to a category
+
+    exec("menubar.add_cascade(label=\"{0}\", menu={1}_menu)".format(unit, unit))  # Add current block group to menu
+
+"""
+functions_menu = Menu(mw)
+for block_name in languages[selected_lang]["functions"].keys():
+    functions_menu.add_command(label=block_name, command=lambda: code_editor.insert(INSERT, languages[selected_lang][
+        "functions"][block_name]))
+"""
 
 code_editor = Text(mw)
 
