@@ -27,10 +27,13 @@ languages = {
             "For loop with advanced counter (start, stop, step)": "for  in range( , , )",
             "While loop": "while :\n"
         },
-        "Functions": {
+        "Basic": {
             "Print to console": "print()",
-            "Evaluate statement an return result": "eval()",
-        }
+            "Evaluate string statement and return result": "eval()",
+            "Execute string statement": "exec()",
+            "Length of an object": "len()",
+        },
+        "Strings",
     }
 }  # List of programming languages available in the app
 
@@ -87,12 +90,6 @@ for unit in languages[selected_lang].keys():
 
     exec("menubar.add_cascade(label=\"{0}\", menu={1}_menu)".format(unit, unit))  # Add current block group to menu
 
-"""
-functions_menu = Menu(mw)
-for block_name in languages[selected_lang]["functions"].keys():
-    functions_menu.add_command(label=block_name, command=lambda: code_editor.insert(INSERT, languages[selected_lang][
-        "functions"][block_name]))
-"""
 
 code_editor = Text(mw)
 
