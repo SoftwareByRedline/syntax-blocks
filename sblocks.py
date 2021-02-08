@@ -18,7 +18,9 @@ languages = {
             "Multiply": "*",
             "Divide": "/",
             "Int divide": "//",
-            "Power": "^"
+            "Power": "^",
+            "Newline character": "\\n",
+            "Tab character": "\\t"
         },
         "Blocks": {
             "If": "if :\n\t",
@@ -35,7 +37,28 @@ languages = {
         }
     },
     "C#": {
-        "Basics": {},
+        "Basics": {
+            "Integer data type": "int",
+            "64-bit signed integer": "long",
+            "Floating point data type": "float",
+            "Double precision float data type": "double",
+            "Byte data type": "byte",
+            "Character data type": "char",
+            "String data type": "String",
+            "Boolean data type": "bool"
+        },
+        "Operators": {
+            "Assign": "=",
+            "Add": "+"
+        },
+        "Functions": {
+            "Write line to console": "Console.WriteLine();",
+            "Convert string to integer": "AsInt()",
+            "Check if value is integer": "IsInt()",
+            "Convert value to float": "AsFloat()",
+            "Check if value is float": "IsFloat()",
+            "Convert string into date/time": "AsDateTime()"
+        },
         "Blocks": {},
         "Unity": {}
     }
