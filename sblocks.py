@@ -21,11 +21,11 @@ languages = {
             "Power": "^"
         },
         "Blocks": {
-            "If": "if :\n",
-            "If else": "if :\n\nelse:\n",
-            "For loop with simple counter": "for  in range()",
-            "For loop with advanced counter (start, stop, step)": "for  in range( , , )",
-            "While loop": "while :\n"
+            "If": "if :\n\t",
+            "If else": "if :\n\t\nelse:\n\t",
+            "For loop with simple counter": "for  in range():\n\t",
+            "For loop with advanced counter (start, stop, step)": "for  in range( , , )\n\t",
+            "While loop": "while :\n\t"
         },
         "Functions": {
             "Print to console": "print()",
@@ -84,7 +84,7 @@ file_menu.add_command(label="Save as", command=save_as)
 
 lang_menu = Menu(mw)
 for lang in languages.keys():
-    lang_menu.add_command(label=lang, command=lambda: exec("change_lang(\"%s\")" % lang))
+    exec("lang_menu.add_command(label=lang, command=lambda: change_lang(\"" + lang + "\"))")
 
 menubar = Menu(mw)
 mw.config(menu=menubar)
