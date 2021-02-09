@@ -14,8 +14,22 @@ def open_about_screen():
     about_screen.title("About SyntaxBlocks")
 
     about_label = Label(about_screen,
-                        text="SyntaxBlocks is an experimental project to help programming learners quickly adapt to new programming languages.\n2021 Redline Software.")
+                        text="SyntaxBlocks is an experimental project to help programming learners quickly adapt to "
+                             "new programming languages.\n2021 Redline Software.")
     close_bttn = Button(about_screen, text="Close", command=about_screen.destroy)
+    about_label.pack()
+    close_bttn.pack()
+
+
+def open_help_screen():
+    help_screen = Toplevel(mw)
+    help_screen.title("Help")
+
+    about_label = Label(help_screen,
+                        text="Inserting blocks: click on categories in menubar, click tearoff line at top of category "
+                             "to make separate window\n\nBlock types:\n() - function/method\n. - dot notation\n.() - "
+                             "dot notation function/method\n+ - operator")
+    close_bttn = Button(help_screen, text="Close", command=help_screen.destroy)
     about_label.pack()
     close_bttn.pack()
 
@@ -117,7 +131,9 @@ file_menu = Menu(mw)
 file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
 file_menu.add_command(label="Save as", command=save_as)
+file_menu.add_separator()
 file_menu.add_command(label="About", command=open_about_screen)
+file_menu.add_command(label="Help", command=open_help_screen)
 
 lang_menu = Menu(mw)
 for lang in languages.keys():
@@ -159,6 +175,6 @@ change_lang("Python")  # Set the default language to Python
 
 code_editor = Text(mw)  # Create the code editor module
 
-code_editor.pack()  # Pack the code editor module into the container window
+code_editor.pack(fill="both", expand=True)  # Pack the code editor module into the container window
 
 mainloop()  # TkInter main loop
