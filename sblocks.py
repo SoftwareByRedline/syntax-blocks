@@ -8,6 +8,18 @@ selected_lang = "Python"
 mw = Tk()  # Initialize main window
 mw.title("SyntaxBlocks alpha")
 
+
+def open_about_screen():
+    about_screen = Toplevel(mw)
+    about_screen.title("About SyntaxBlocks")
+
+    about_label = Label(about_screen,
+                        text="SyntaxBlocks is an experimental project to help programming learners quickly adapt to new programming languages.\n2021 Redline Software.")
+    close_bttn = Button(about_screen, text="Close", command=about_screen.destroy)
+    about_label.pack()
+    close_bttn.pack()
+
+
 # Language blocks database
 languages = {
     "Python": {
@@ -30,10 +42,11 @@ languages = {
             "While loop": "while :\n\t"
         },
         "Functions": {
-            "Print to console": "print()",
-            "Evaluate string statement and return result": "eval()",
-            "Execute string statement": "exec()",
-            "Length of an object": "len()",
+            "Print to console ()": "print()",
+            "Evaluate string statement and return result ()": "eval()",
+            "Execute string statement ()": "exec()",
+            "Length of an object ()": "len()",
+            "Read line from file .()": ".readline()"
         }
     },
     "C#": {
@@ -52,12 +65,12 @@ languages = {
             "Add": "+"
         },
         "Functions": {
-            "Write line to console": "Console.WriteLine();",
-            "Convert string to integer": "AsInt()",
-            "Check if value is integer": "IsInt()",
-            "Convert value to float": "AsFloat()",
-            "Check if value is float": "IsFloat()",
-            "Convert string into date/time": "AsDateTime()"
+            "Write line to console ()": "Console.WriteLine();",
+            "Convert string to integer ()": "AsInt()",
+            "Check if value is integer ()": "IsInt()",
+            "Convert value to float ()": "AsFloat()",
+            "Check if value is float ()": "IsFloat()",
+            "Convert string into date/time ()": "AsDateTime()"
         },
         "Blocks": {},
         "Unity": {}
@@ -104,6 +117,7 @@ file_menu = Menu(mw)
 file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
 file_menu.add_command(label="Save as", command=save_as)
+file_menu.add_command(label="About", command=open_about_screen)
 
 lang_menu = Menu(mw)
 for lang in languages.keys():
