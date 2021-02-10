@@ -72,7 +72,12 @@ languages = {
             "Byte data type": "byte",
             "Character data type": "char",
             "String data type": "String",
-            "Boolean data type": "bool"
+            "Boolean data type": "bool",
+            "Void function": "void  (){\n\n}",
+            "Public modifier": "public",
+            "Protected modifier": "protected",
+            "Private modifier": "private",
+            "Use external module": "using ;"
         },
         "Operators": {
             "Assign": "=",
