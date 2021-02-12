@@ -92,7 +92,17 @@ languages = {
             "Convert string into date/time ()": "AsDateTime()"
         },
         "Blocks": {},
-        "Unity": {}
+    },
+    "C# for Unity": {
+        "General": {"Unity Event data type": "UnityEvent",
+            "Invoke Unity Event .()": ".Invoke()",
+            "MonoBehaviour class": "public class  : MonoBehaviour{\n\n}"},
+        "Transform":{
+            "Move (translate) Transform .(vector)": ".Translate()",
+            "Rotate Transform .(vector)": ".Rotate()",
+            "Create new Vector2 (x, y)": "new Vector2()",
+            "Create new Vector3 (x, y, z)": "new Vector3()"
+        }
     }
 }  # List of programming languages available in the app
 
