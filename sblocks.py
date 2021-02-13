@@ -16,7 +16,8 @@ def open_about_screen():
     about_label = Label(about_screen,
                         text="SyntaxBlocks is an experimental project to help programming learners quickly adapt to "
                              "new programming languages.\n2021 Redline Software.")
-    close_bttn = Button(about_screen, text="Close", command=about_screen.destroy)
+    close_bttn = Button(about_screen, text="Close",
+                        command=about_screen.destroy)
     about_label.pack()
     close_bttn.pack()
 
@@ -95,13 +96,23 @@ languages = {
     },
     "C# for Unity": {
         "General": {"Unity Event data type": "UnityEvent",
-            "Invoke Unity Event .()": ".Invoke()",
-            "MonoBehaviour class": "public class  : MonoBehaviour{\n\n}"},
-        "Transform":{
+                    "Invoke Unity Event .()": ".Invoke()",
+                    "MonoBehaviour class": "public class  : MonoBehaviour{\n\n}",
+                    "Add editor field to private variable (add before private declaration)": "[SerializeField]",
+                    },
+        "Functions": {
+            "Call at game start": "void Start(){\n}"
+        },
+        "Transform": {
+            "Get transform position .": ".Transform.position",
             "Move (translate) Transform .(vector)": ".Translate()",
             "Rotate Transform .(vector)": ".Rotate()",
             "Create new Vector2 (x, y)": "new Vector2()",
             "Create new Vector3 (x, y, z)": "new Vector3()"
+        },
+        "UI": {
+            "Text data type": "Text",
+            "String to be included in text module <Text>.": ".text"
         }
     }
 }  # List of programming languages available in the app
@@ -177,10 +188,12 @@ def change_lang(input_lang: str):
         exec(unit + "_menu = Menu(mw)")  # Create a block group
         for block in languages[selected_lang][unit].keys():
             exec(
-                unit + "_menu.add_command(label=block, command=lambda: code_editor.insert(INSERT, languages["
-                       "selected_lang][\"" + unit + "\"][\"" + block + "\"]))")  # Add a block to a category
+                unit +
+                "_menu.add_command(label=block, command=lambda: code_editor.insert(INSERT, languages["
+                "selected_lang][\"" + unit + "\"][\"" + block + "\"]))")  # Add a block to a category
 
-        exec("menubar.add_cascade(label=\"{0}\", menu={1}_menu)".format(unit, unit))  # Add current block group to menu
+        exec("menubar.add_cascade(label=\"{0}\", menu={1}_menu)".format(
+            unit, unit))  # Add current block group to menu
 
 
 change_lang("Python")  # Set the default language to Python
@@ -188,8 +201,10 @@ change_lang("Python")  # Set the default language to Python
 # Here we create the block groups visible in the menu bar
 
 
-code_editor = Text(mw)  # Create the code editor module
+# Create the code editor module
+code_editor = Text(mw, bg="#2d2e38", fg="#aaaebf")
 
-code_editor.pack(fill="both", expand=True)  # Pack the code editor module into the container window
+# Pack the code editor module into the container window
+code_editor.pack(fill="both", expand=True)
 
 mainloop()  # TkInter main loop
