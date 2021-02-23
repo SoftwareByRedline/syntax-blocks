@@ -14,7 +14,7 @@ Users of this app will get a menubar at the top of the editor with many categori
 
 ## Install
 ### Method 1: Clone repository
-Paste
+Copy and paste
 
 `git clone https://github.com/SoftwareByRedline/syntax-blocks`
 
