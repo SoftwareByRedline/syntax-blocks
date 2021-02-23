@@ -5,17 +5,22 @@ file_path = ""
 
 selected_lang = "Python"
 
+lighter_gray = "#3C3F41"
+darker_gray = "#2B2B2B"
+menu_text_white = "#BBBBBB"
+editor_text_white = "#A2AFBD"
+
 mw = Tk()  # Initialize main window
 mw.title("SyntaxBlocks alpha")
 
 
 def open_about_screen():
-    about_screen = Toplevel(mw)
+    about_screen = Toplevel(mw, bg=lighter_gray)
     about_screen.title("About SyntaxBlocks")
 
     about_label = Label(about_screen,
                         text="SyntaxBlocks is an experimental project to help programming learners quickly adapt to "
-                             "new programming languages.\n2021 Redline Software.")
+                             "new programming languages.\n2021 Redline Software.", fg=menu_text_white, bg=lighter_gray)
     close_bttn = Button(about_screen, text="Close",
                         command=about_screen.destroy)
     about_label.pack()
@@ -29,7 +34,7 @@ def open_help_screen():
     about_label = Label(help_screen,
                         text="Inserting blocks: click on categories in menubar, click tearoff line at top of category "
                              "to make separate window\n\nBlock types:\n() - function/method\n. - dot notation\n.() - "
-                             "dot notation function/method\n+ - operator")
+                             "dot notation function/method\n+ - operator", fg=menu_text_white, bg=lighter_gray)
     close_bttn = Button(help_screen, text="Close", command=help_screen.destroy)
     about_label.pack()
     close_bttn.pack()
@@ -66,6 +71,8 @@ languages = {
     },
     "C#": {
         "Basics": {
+            "Main boilerplate": "using System;\n\nclass Program\n{\n\npublic static void Main(string[] args)\n{"
+                                "\n\t\n}\n}",
             "Integer data type": "int",
             "64-bit signed integer": "long",
             "Floating point data type": "float",
@@ -92,7 +99,11 @@ languages = {
             "Check if value is float ()": "IsFloat()",
             "Convert string into date/time ()": "AsDateTime()"
         },
-        "Blocks": {},
+        "Blocks": {
+            "If": "if()\n{\n\t\n}",
+            "If else": "if()\n{\n\t\n}\nelse\n{\t\n}",
+            "For": "for( ; ; )\n{\n\t\n}"
+        },
     },
     "C# for Unity": {
         "General": {"Unity Event data type": "UnityEvent",
@@ -102,6 +113,9 @@ languages = {
                     },
         "Functions": {
             "Call at game start": "void Start(){\n}"
+        },
+        "GameObject": {
+            "Set active .(bool)": ".setActive()"
         },
         "Transform": {
             "Get transform position .": ".Transform.position",
@@ -140,10 +154,7 @@ def save_file():
 
 def save_as():
     global file_path
-    file_path = filedialog.asksaveasfile()
-    print(type(file_path))
-
-    file_out = open(file_path, "w")
+    file_out = filedialog.asksaveasfile()
 
     for line in code_editor.get("1.0", "end-1c"):
         print(line, file=file_out, end="")
@@ -153,7 +164,7 @@ def save_as():
 
 # Configure menus
 
-file_menu = Menu(mw)
+file_menu = Menu(mw, bg="#3C3F41", fg="#BBBBBB", activebackground="#2E7AD0")
 file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
 file_menu.add_command(label="Save as", command=save_as)
@@ -161,11 +172,11 @@ file_menu.add_separator()
 file_menu.add_command(label="About", command=open_about_screen)
 file_menu.add_command(label="Help", command=open_help_screen)
 
-lang_menu = Menu(mw)
+lang_menu = Menu(mw, bg="#3C3F41", fg="#BBBBBB", activebackground="#2E7AD0")
 for lang in languages.keys():
     exec("lang_menu.add_command(label=lang, command=lambda: change_lang(\"" + lang + "\"))")
 
-menubar = Menu(mw)
+menubar = Menu(mw, bg="#3C3F41", fg="#BBBBBB", activebackground="#2E7AD0")
 mw.config(menu=menubar)
 menubar.add_cascade(label="File", menu=file_menu)
 menubar.add_cascade(label="Language", menu=lang_menu)
@@ -185,7 +196,8 @@ def change_lang(input_lang: str):
         pass
     selected_lang = input_lang
     for unit in languages[selected_lang].keys():
-        exec(unit + "_menu = Menu(mw)")  # Create a block group
+        exec("{0}_menu = Menu(mw, bg=\"#3C3F41\", fg=\"#BBBBBB\", activebackground=\"#2E7AD0\")".format(
+            unit))  # Create a block group
         for block in languages[selected_lang][unit].keys():
             exec(
                 unit +
@@ -202,7 +214,7 @@ change_lang("Python")  # Set the default language to Python
 
 
 # Create the code editor module
-code_editor = Text(mw, bg="#2d2e38", fg="#aaaebf")
+code_editor = Text(mw, bg="#2B2B2B", fg="#A2AFBD", insertbackground="white", highlightthickness=0, insertwidth=3)
 
 # Pack the code editor module into the container window
 code_editor.pack(fill="both", expand=True)
