@@ -10,6 +10,8 @@ darker_gray = "#2B2B2B"
 menu_text_white = "#BBBBBB"
 editor_text_white = "#A2AFBD"
 
+param_screen_shown = False
+
 mw = Tk()  # Initialize main window
 mw.title("SyntaxBlocks alpha")
 
@@ -40,93 +42,144 @@ def open_help_screen():
     close_bttn.pack()
 
 
+def insert_block_with_params(block: str, b_unit: str):
+    block_string = languages[selected_lang][b_unit][block][0]
+    params = languages[selected_lang][b_unit][block][1]
+    for param in params:
+        print(param_variables[param].get())
+        block_string = block_string.replace(param, param_variables[param].get())
+    code_editor.insert(INSERT, block_string)
+
+
+def show_params_screen(block_key: str, block_unit: str):
+    def insert_button_func():
+        global param_screen_shown
+        insert_block_with_params(block_key, block_unit)
+        param_screen_window.destroy()
+        param_screen_shown = False
+    """
+    If there are parameters, allows the user to enter them through a GUI
+    :param block_key:
+    :param params:
+    """
+    global code_editor, param_variables, param_labels, param_entries
+    global param_screen_shown
+    params = languages[selected_lang][block_unit][block_key][1]
+    if not param_screen_shown:
+        if len(params) > 0:
+            # If there are params, only then show the screen, else insert the
+            # block instantly
+            param_screen_shown = True
+            param_screen_window = Toplevel(mw)
+            param_screen_window.title("Insert block: " + block_key)
+            global param_variables
+            param_variables = dict()
+            param_labels = dict()
+            param_entries = dict()
+            for param in params:
+                param_variables[param] = StringVar()
+                param_labels[param] = Label(param_screen_window, text=param.replace("_", " ") + ":", bg=lighter_gray, fg=menu_text_white)
+                param_entries[param] = Entry(param_screen_window, bg=darker_gray, fg=editor_text_white,
+                                             textvariable=param_variables[param])
+                param_labels[param].pack()
+                param_entries[param].pack()
+
+            insert_button = Button(param_screen_window, bg="green", fg="white",
+                                   command=insert_button_func)
+            insert_button.pack()
+        else:
+            code_editor.insert(INSERT, languages[selected_lang][block_unit][block_key][0])
+
+
 # Language blocks database
 languages = {
     "Python": {
         "Basics": {
-            "Text": "\"\"",
-            "Add": "+",
-            "Subtract": "-",
-            "Multiply": "*",
-            "Divide": "/",
-            "Int divide": "//",
-            "Power": "^",
-            "Newline character": "\\n",
-            "Tab character": "\\t"
+            "Text": ["\"\"", []],
+            "Add": ["+", []],
+            "Subtract": ["-", []],
+            "Multiply": ["*", []],
+            "Divide": ["/", []],
+            "Int divide": ["//", []],
+            "Power": ["**", []],
+            "Newline character": ["\\n", []],
+            "Tab character": ["\\t", []]
         },
         "Blocks": {
-            "If": "if :\n\t",
-            "If else": "if :\n\t\nelse:\n\t",
-            "For loop with simple counter": "for  in range():\n\t",
-            "For loop with advanced counter (start, stop, step)": "for  in range( , , )\n\t",
-            "While loop": "while :\n\t"
+            "If": ["if Condition:\n\t", ["Condition"]],
+            "If else": ["if :\n\t\nelse:\n\t", ["Condition"]],
+            "For loop with simple counter": ["for Iterable in range(Stop):\n\t", ["Iterable", "Stop"]],
+            "For loop with advanced counter (start, stop, step)": ["for Iterable in range(Start, Stop, Step)\n\t", ["Iterable", "Start", "Stop", "Step"]],
+            "While loop": ["while Condition:\n\t", ["Condition"]]
         },
         "Functions": {
-            "Print to console ()": "print()",
-            "Evaluate string statement and return result ()": "eval()",
-            "Execute string statement ()": "exec()",
-            "Length of an object ()": "len()",
-            "Read line from file .()": ".readline()"
+            "Print to console ()": ["print(Message)", ["Message"]],
+            "Evaluate string expression and return result ()": ["eval(Expression)", ["Expression"]],
+            "Execute string statement ()": ["exec(Statement)", ["Statement"]],
+            "Length of an object ()": ["len(Object)", ["Object"]],
+            "Read line from file": ["File.readline()", ["File"]]
         }
     },
     "C#": {
         "Basics": {
-            "Main boilerplate": "using System;\n\nclass Program\n{\n\npublic static void Main(string[] args)\n{"
-                                "\n\t\n}\n}",
-            "Integer data type": "int",
-            "64-bit signed integer": "long",
-            "Floating point data type": "float",
-            "Double precision float data type": "double",
-            "Byte data type": "byte",
-            "Character data type": "char",
-            "String data type": "String",
-            "Boolean data type": "bool",
-            "Void function": "void  (){\n\n}",
-            "Public modifier": "public",
-            "Protected modifier": "protected",
-            "Private modifier": "private",
-            "Use external module": "using ;"
+            "Main boilerplate": ["using System;\n\nclass Class_name\n{\n\npublic static void Main(string[] args)\n{"
+                                "\n\t\n}\n}", ["Class_name"]],
+            "Integer data type": ["int", []],
+            "64-bit signed integer": ["long", []],
+            "Floating point data type": ["float", []],
+            "Double precision float data type": ["double", []],
+            "Byte data type": ["byte", []],
+            "Character data type": ["char", []],
+            "String data type": ["string", []],
+            "Boolean data type": ["bool", []],
+            "New void function": ["void Function_name(){\n\n}", ["Function_name"]],
+            "New custom function": ["Return_type Function_name(Arguments_(optional))\n{\n\t\n}", ["Return_type", "Function_name", "Arguments_(optional)"]],
+            "Public modifier": ["public", []],
+            "Protected modifier": ["protected", []],
+            "Private modifier": ["private", []],
+            "Use external module": ["using Module;", ["Module"]]
         },
         "Operators": {
-            "Assign": "=",
-            "Add": "+"
+            "Assign": ["=", []],
+            "Add": ["+", []]
         },
         "Functions": {
-            "Write line to console ()": "Console.WriteLine();",
-            "Convert string to integer ()": "AsInt()",
-            "Check if value is integer ()": "IsInt()",
-            "Convert value to float ()": "AsFloat()",
-            "Check if value is float ()": "IsFloat()",
-            "Convert string into date/time ()": "AsDateTime()"
+            "Write line to console ()": ["Console.WriteLine(Message);", ["Message"]],
+            "Convert string to integer ()": ["AsInt(String)", ["String"]],
+            "Check if value is integer ()": ["IsInt(Value)", ["Value"]],
+            "Convert value to float ()": ["AsFloat(Value)", ["Value"]],
+            "Check if value is float ()": ["IsFloat(Value)", ["Value"]],
+            "Convert string into date/time ()": ["AsDateTime(String)", ["String"]]
         },
         "Blocks": {
-            "If": "if()\n{\n\t\n}",
-            "If else": "if()\n{\n\t\n}\nelse\n{\t\n}",
-            "For": "for( ; ; )\n{\n\t\n}"
-        },
+            "If": ["if(Condition)\n{\n\t\n}", ["Condition"]],
+            "If else": ["if(Condition)\n{\n\t\n}\nelse\n{\t\n}", ["Condition"]],
+            "For loop (simple)": ["for(int Iterable = Start; Iterable < Stop; Iterable++)\n{\n\t\n}", ["Iterable", "Start", "Stop"]],
+            "For loop (advanced)": ["for(int Iterable = Start; Condition; Increment)\n{\n\t\n}", ["Iterable", "Start", "Condition", "Increment"]],
+        }
     },
     "C# for Unity": {
-        "General": {"Unity Event data type": "UnityEvent",
-                    "Invoke Unity Event .()": ".Invoke()",
-                    "MonoBehaviour class": "public class  : MonoBehaviour{\n\n}",
-                    "Add editor field to private variable (add before private declaration)": "[SerializeField]",
+        "General": {"Unity Event data type": ["UnityEvent", []],
+                    "Invoke Unity Event": ["Event.Invoke()", ["Event"]],
+                    "MonoBehaviour class": ["public class Class_name : MonoBehaviour{\n\n}", ["Class_name"]],
+                    "Add editor field to private variable (add before private declaration)": ["[SerializeField]", []],
                     },
         "Functions": {
-            "Call at game start": "void Start(){\n}"
+            "Call at game start": ["void Start(){\n}", []]
         },
         "GameObject": {
-            "Set active .(bool)": ".setActive()"
+            "Set active .()": [".setActive(True/False)", ["True/False"]]
         },
         "Transform": {
             "Get transform position .": ".Transform.position",
-            "Move (translate) Transform .(vector)": ".Translate()",
-            "Rotate Transform .(vector)": ".Rotate()",
-            "Create new Vector2 (x, y)": "new Vector2()",
-            "Create new Vector3 (x, y, z)": "new Vector3()"
+            "Move (translate) Transform .()": [".Translate(Vector)", ["Vector"]],
+            "Rotate Transform .()": [".Rotate(Vector)", ["Vector"]],
+            "Create new Vector2": ["new Vector2(X, Y)", ["X", "Y"]],
+            "Create new Vector3": ["new Vector3(X, Y, Z)", ["X", "Y", "Z"]]
         },
         "UI": {
-            "Text data type": "Text",
-            "String to be included in text module <Text>.": ".text"
+            "Text data type": ["Text", []],
+            "String to be included in text module <Text>.": [".text", []]
         }
     }
 }  # List of programming languages available in the app
@@ -201,8 +254,7 @@ def change_lang(input_lang: str):
         for block in languages[selected_lang][unit].keys():
             exec(
                 unit +
-                "_menu.add_command(label=block, command=lambda: code_editor.insert(INSERT, languages["
-                "selected_lang][\"" + unit + "\"][\"" + block + "\"]))")  # Add a block to a category
+                "_menu.add_command(label=block, command=lambda: show_params_screen(\"" + block + "\", \"" + unit + "\"))")  # Add a block to a category
 
         exec("menubar.add_cascade(label=\"{0}\", menu={1}_menu)".format(
             unit, unit))  # Add current block group to menu
