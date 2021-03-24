@@ -46,7 +46,6 @@ def insert_block_with_params(block: str, b_unit: str):
     block_string = languages[selected_lang][b_unit][block][0]
     params = languages[selected_lang][b_unit][block][1]
     for param in params:
-        print(param_variables[param].get())
         block_string = block_string.replace(param, param_variables[param].get())
     code_editor.insert(INSERT, block_string)
 
@@ -57,6 +56,7 @@ def show_params_screen(block_key: str, block_unit: str):
         insert_block_with_params(block_key, block_unit)
         param_screen_window.destroy()
         param_screen_shown = False
+
     """
     If there are parameters, allows the user to enter them through a GUI
     :param block_key:
@@ -70,7 +70,7 @@ def show_params_screen(block_key: str, block_unit: str):
             # If there are params, only then show the screen, else insert the
             # block instantly
             param_screen_shown = True
-            param_screen_window = Toplevel(mw)
+            param_screen_window = Toplevel(mw, bg=lighter_gray)
             param_screen_window.title("Insert block: " + block_key)
             global param_variables
             param_variables = dict()
@@ -78,13 +78,14 @@ def show_params_screen(block_key: str, block_unit: str):
             param_entries = dict()
             for param in params:
                 param_variables[param] = StringVar()
-                param_labels[param] = Label(param_screen_window, text=param.replace("_", " ") + ":", bg=lighter_gray, fg=menu_text_white)
+                param_labels[param] = Label(param_screen_window, text=param.replace("_", " ") + ":", bg=lighter_gray,
+                                            fg=menu_text_white)
                 param_entries[param] = Entry(param_screen_window, bg=darker_gray, fg=editor_text_white,
                                              textvariable=param_variables[param])
                 param_labels[param].pack()
                 param_entries[param].pack()
 
-            insert_button = Button(param_screen_window, bg="green", fg="white",
+            insert_button = Button(param_screen_window, text="Insert", bg="green", fg="white",
                                    command=insert_button_func)
             insert_button.pack()
         else:
@@ -109,7 +110,8 @@ languages = {
             "If": ["if Condition:\n\t", ["Condition"]],
             "If else": ["if :\n\t\nelse:\n\t", ["Condition"]],
             "For loop with simple counter": ["for Iterable in range(Stop):\n\t", ["Iterable", "Stop"]],
-            "For loop with advanced counter (start, stop, step)": ["for Iterable in range(Start, Stop, Step)\n\t", ["Iterable", "Start", "Stop", "Step"]],
+            "For loop with advanced counter (start, stop, step)": ["for Iterable in range(Start, Stop, Step)\n\t",
+                                                                   ["Iterable", "Start", "Stop", "Step"]],
             "While loop": ["while Condition:\n\t", ["Condition"]]
         },
         "Functions": {
@@ -123,7 +125,7 @@ languages = {
     "C#": {
         "Basics": {
             "Main boilerplate": ["using System;\n\nclass Class_name\n{\n\npublic static void Main(string[] args)\n{"
-                                "\n\t\n}\n}", ["Class_name"]],
+                                 "\n\t\n}\n}", ["Class_name"]],
             "Integer data type": ["int", []],
             "64-bit signed integer": ["long", []],
             "Floating point data type": ["float", []],
@@ -133,7 +135,8 @@ languages = {
             "String data type": ["string", []],
             "Boolean data type": ["bool", []],
             "New void function": ["void Function_name(){\n\n}", ["Function_name"]],
-            "New custom function": ["Return_type Function_name(Arguments_(optional))\n{\n\t\n}", ["Return_type", "Function_name", "Arguments_(optional)"]],
+            "New custom function": ["Return_type Function_name(Arguments_(optional))\n{\n\t\n}",
+                                    ["Return_type", "Function_name", "Arguments_(optional)"]],
             "Public modifier": ["public", []],
             "Protected modifier": ["protected", []],
             "Private modifier": ["private", []],
@@ -154,8 +157,10 @@ languages = {
         "Blocks": {
             "If": ["if(Condition)\n{\n\t\n}", ["Condition"]],
             "If else": ["if(Condition)\n{\n\t\n}\nelse\n{\t\n}", ["Condition"]],
-            "For loop (simple)": ["for(int Iterable = Start; Iterable < Stop; Iterable++)\n{\n\t\n}", ["Iterable", "Start", "Stop"]],
-            "For loop (advanced)": ["for(int Iterable = Start; Condition; Increment)\n{\n\t\n}", ["Iterable", "Start", "Condition", "Increment"]],
+            "For loop (simple)": ["for(int Iterable = Start; Iterable < Stop; Iterable++)\n{\n\t\n}",
+                                  ["Iterable", "Start", "Stop"]],
+            "For loop (advanced)": ["for(int Iterable = Start; Condition; Increment)\n{\n\t\n}",
+                                    ["Iterable", "Start", "Condition", "Increment"]],
         }
     },
     "C# for Unity": {
