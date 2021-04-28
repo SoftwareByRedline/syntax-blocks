@@ -122,6 +122,11 @@ languages = {
             "Read line from file": ["File.readline()", ["File"]]
         }
     },
+    "Python for GTK": {
+        "Basics": {
+            "Main boilerplate": ["import gi\ngi.require_version(\"Gtk\", \"3.0\")\nfrom gi.repository import Gtk\n\nwindow = Gtk.Window(title=Window_title)\nwindow.show()\nwindow.connect(\"destroy\", Gtk.main_quit)\nGtk.main()", ["Window_title"]]
+        }
+    },
     "C#": {
         "Basics": {
             "Main boilerplate": ["using System;\n\nclass Class_name\n{\n\npublic static void Main(string[] args)\n{"
@@ -185,6 +190,13 @@ languages = {
         "UI": {
             "Text data type": ["Text", []],
             "String to be included in text module <Text>.": [".text", []]
+        }
+    },
+    "HTML": {
+        "Basics": {
+            "Main boilerplate": ["<!DOCTYPE html>\n<html>\n<head>\n\t<title>Website_title</title>\n</head>\n<body>\n\n"
+                                 "</body>\n</html>", ["Website_title"]]
+
         }
     }
 }  # List of programming languages available in the app
@@ -255,14 +267,14 @@ def change_lang(input_lang: str):
     selected_lang = input_lang
     for unit in languages[selected_lang].keys():
         exec("{0}_menu = Menu(mw, bg=\"#3C3F41\", fg=\"#BBBBBB\", activebackground=\"#2E7AD0\")".format(
-            unit))  # Create a block group
+            unit.replace(" ", "")))  # Create a block group
         for block in languages[selected_lang][unit].keys():
             exec(
                 unit +
                 "_menu.add_command(label=block, command=lambda: show_params_screen(\"" + block + "\", \"" + unit + "\"))")  # Add a block to a category
 
         exec("menubar.add_cascade(label=\"{0}\", menu={1}_menu)".format(
-            unit, unit))  # Add current block group to menu
+            unit, unit.replace(" ", "")))  # Add current block group to menu
 
 
 change_lang("Python")  # Set the default language to Python
