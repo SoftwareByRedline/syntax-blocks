@@ -208,7 +208,18 @@ languages = {
             "Heading Level 6": ["<h6></h6>", []],
             "Paragraph": ["<p></p>", []],
             "Div container": ["<div class=\"Class_name\" id=\"Identifier\"></div>", ["Class_name", "Identifier"]],
-            "Span": ["<span class=\"Class_name\" id=\"Identifier\">", ["Class_name", "Identifier"]]
+            "Span": ["<span class=\"Class_name\" id=\"Identifier\">", ["Class_name", "Identifier"]],
+            "Ordered list": ["<ol>\n\n</ol>", []],
+            "Unordered list": ["<ul>\n\n</ul>", []],
+            "List item": ["<li>\n\n</li>", []],
+        }
+    },
+    "CSS": {
+        "Selectors": {
+            "Tag selector": ["Tag_type {\n\n}", ["Tag_type"]],
+            "Class selector": [".Class_name {\n\n}", ["Class_name"]],
+            "Identifier selector": ["#Identifier {\n\n}", ["Identifier"]],
+            "Mouse hover state": [":hover", []]
         }
     }
 }  # List of programming languages available in the app
