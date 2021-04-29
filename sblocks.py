@@ -12,9 +12,9 @@ editor_text_white = "#A2AFBD"
 
 param_screen_shown = False
 
-
 mw = Tk()  # Initialize main window
 mw.title("Unsaved - SyntaxBlocks alpha")
+
 
 def set_window_title():
     mw.title(file_path + " - SyntaxBlocks alpha")
@@ -128,7 +128,14 @@ languages = {
     },
     "Python for GTK": {
         "Basics": {
-            "Main boilerplate": ["import gi\ngi.require_version(\"Gtk\", \"3.0\")\nfrom gi.repository import Gtk\n\nwindow = Gtk.Window(title=Window_title)\nwindow.show()\nwindow.connect(\"destroy\", Gtk.main_quit)\nGtk.main()", ["Window_title"]]
+            "Main boilerplate": ["import gi\ngi.require_version(\"Gtk\", \"3.0\")\nfrom gi.repository import "
+                                 "Gtk\n\nwindow = Gtk.Window(title=Window_title)\nwindow.show()\nwindow.connect("
+                                 "\"destroy\", Gtk.main_quit)\nGtk.main()", ["Window_title"]],
+            "Set window title": ["window.set_title(Title_text)", ["Title_text"]],
+            "New window": ["Window_variable = Gtk.Window(title=Window_title)\nWindow_variable.show("
+                           ")\nWindow_variable.connect(\"destroy\", Gtk.main_quit)", ["Window_variable",
+                                                                                      "Window_title"]],
+            "Label widget": ["", []]
         }
     },
     "C#": {
@@ -234,7 +241,7 @@ def open_file():  # Open file method
         code_editor.insert("end-1c", line)
 
     set_window_title()
-    
+
     file_in.close()
 
 
