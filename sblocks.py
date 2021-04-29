@@ -12,8 +12,12 @@ editor_text_white = "#A2AFBD"
 
 param_screen_shown = False
 
+
 mw = Tk()  # Initialize main window
-mw.title("SyntaxBlocks alpha")
+mw.title("Unsaved - SyntaxBlocks alpha")
+
+def set_window_title():
+    mw.title(file_path + " - SyntaxBlocks alpha")
 
 
 def open_about_screen():
@@ -195,8 +199,16 @@ languages = {
     "HTML": {
         "Basics": {
             "Main boilerplate": ["<!DOCTYPE html>\n<html>\n<head>\n\t<title>Website_title</title>\n</head>\n<body>\n\n"
-                                 "</body>\n</html>", ["Website_title"]]
-
+                                 "</body>\n</html>", ["Website_title"]],
+            "Heading Level 1": ["<h1></h1>", []],
+            "Heading Level 2": ["<h2></h2>", []],
+            "Heading Level 3": ["<h3></h3>", []],
+            "Heading Level 4": ["<h4></h4>", []],
+            "Heading Level 5": ["<h5></h5>", []],
+            "Heading Level 6": ["<h6></h6>", []],
+            "Paragraph": ["<p></p>", []],
+            "Div container": ["<div class=\"Class_name\" id=\"Identifier\"></div>", ["Class_name", "Identifier"]],
+            "Span": ["<span class=\"Class_name\" id=\"Identifier\">", ["Class_name", "Identifier"]]
         }
     }
 }  # List of programming languages available in the app
@@ -210,6 +222,8 @@ def open_file():  # Open file method
     for line in file_in:
         code_editor.insert("end-1c", line)
 
+    set_window_title()
+    
     file_in.close()
 
 
